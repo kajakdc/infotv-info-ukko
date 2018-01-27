@@ -7,7 +7,7 @@ from slackclient import SlackClient
 def run(command):
 
 	if command == "help":
-		return "motd: txt <text>, img <url>, showTxt <text>, showImg <url>, showId <id>, delete <id>, list, listId <id>\nnote: add <text>, delete <id>, list, listId <id>, priority <id> <priority>, show <id> <state>"
+		return "<target> <command> [params]\nmotd: txt <text>, img <url>, showTxt <text>, showImg <url>, showId <id>, delete <id>, list, listId <id>\nnote: add <text>, delete <id>, list, listId <id>, priority <id> <priority>, show <id> <state>"
 
 	splitted = command.split(" ", 2)
 	
@@ -153,17 +153,18 @@ def makeRequest(method, target, id, params):
 	print url
 	
 	jdata = json.dumps(params)
+	headers = {"Content-Type": "application/json"}
 	
 	print jdata
 	
 	if method == "GET":
 		 r = requests.get(url)
 	elif method == "POST":
-		r = requests.post(url, json=jdata)
+		r = requests.post(url, data=jdata, headers=headers)
 	elif method == "DELETE":
 		r = requests.delete(url)
 	elif method == "PUT":
-		r = requests.put(url, json=jdata)
+		r = requests.put(url, data=jdata, headers=headers)
 	else:
 		return ""
 		
