@@ -8,30 +8,13 @@ def run(command):
 
 	if command == "help":
 		return "<target> <command> [params]\nmotd: txt <text>, img <url>, showTxt <text>, showImg <url>, showId <id>, delete <id>, deleteAll, list, listId <id>\nnote: add <text>, delete <id>, deleteAll, list, listId <id>, priority <id> <priority>, show <id> <state>, showAll <state>"
-
+		
 	splitted = command.split(" ", 2)
 	
 	if len(splitted) < 2:
 		return "Command not complete"
 	
 	syntaxTree = {"motd": {"txt": 1, "img": 1, "showTxt": 1, "showImg": 1, "showId": 1, "delete": 1, "deleteAll": 0, "list": 0, "listId": 1}, "note": {"add": 1, "delete": 1, "deleteAll": 0, "list": 0, "listId": 1, "priority": 2, "show": 2, "showAll": 1}}
-	
-	# list = GET
-	# listId = GET /id
-	# txt = POST data 1
-	# img = POST data 0
-	# showTxt = PUT data 1
-	# showImg = PUT data 0
-	# showId = PUT /id
-	# delete = DELETE /id
-
-	# list = GET
-	# listId = GET /id
-	# add = POST data
-	# show = PUT /id active
-	# priority = PUT /id priority
-	# delete = DELETE /id
-
 	
 	if not(splitted[0] in syntaxTree):
 		return "Invalid target"
@@ -159,8 +142,6 @@ def runNote(parameters):
 def makeRequest(method, target, id, params):
 
 	url = "http://" + os.environ["API_IP"] + ":" + os.environ["API_PORT"] + "/api/" + target + "/" + id
-
-	print url
 	
 	jdata = json.dumps(params)
 	headers = {"Content-Type": "application/json"}
@@ -189,13 +170,13 @@ if sc.rtm_connect(with_team_state=False):
 		messages = sc.rtm_read()
 		if len(messages) > 0:
 			for msg in messages:
-				if "text" in msg and "user" in msg:
+				if "text" in msg and "user" in msg and "channel" in msg:
 					if msg["user"] == "U90DACE79":
 						continue
 					command = msg["text"]
 					respond = run(command)
 					if respond != "":
-						sc.rtm_send_message(msg["user"], respond)
+						sc.rtm_send_message(msg["channel"], respond)
 					
 else:
 	print "Connection to Slack failed"
