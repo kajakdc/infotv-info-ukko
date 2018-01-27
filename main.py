@@ -159,11 +159,11 @@ def makeRequest(method, target, id, params):
 	if method == "GET":
 		 r = requests.get(url)
 	elif method == "POST":
-		r = requests.post(url, data=jdata)
+		r = requests.post(url, json=jdata)
 	elif method == "DELETE":
 		r = requests.delete(url)
 	elif method == "PUT":
-		r = requests.put(url, data=jdata)
+		r = requests.put(url, json=jdata)
 	else:
 		return ""
 		
