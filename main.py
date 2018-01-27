@@ -43,6 +43,7 @@ def runMotd(parameters):
 	id = ""
 	method = ""
 	params = {}
+	target = "motd"
 	
 	print parameters
 	
@@ -78,13 +79,14 @@ def runMotd(parameters):
 		id = parameters[1]
 		
 	elif parameters[0] == "deleteAll":
+		target = "motd/all"
 		method = "DELETE"		
 		
 	print method
 	print id
 	print params
 		
-	response = makeRequest(method, "motd", id, params)
+	response = makeRequest(method, target, id, params)
 		
 	print response
 		
@@ -94,6 +96,7 @@ def runNote(parameters):
 	id = ""
 	method = ""
 	params = {}
+	target = "note"
 	
 	print parameters
 	
@@ -115,6 +118,7 @@ def runNote(parameters):
 		
 	elif parameters[0] == "showAll":
 		method = "PUT"
+		target = "note/all"
 		params = {"Active": parameters[2]}
 	
 	elif parameters[0] == "priority":
@@ -127,13 +131,14 @@ def runNote(parameters):
 		id = parameters[1]
 		
 	elif parameters[0] == "deleteAll":
+		target = "note/all"
 		method = "DELETE"
 	
 	print method
 	print id
 	print params
 		
-	response = makeRequest(method, "note", id, params)
+	response = makeRequest(method, target, id, params)
 		
 	print response
 		
