@@ -7,14 +7,14 @@ from slackclient import SlackClient
 def run(command):
 
 	if command == "help":
-		return "<target> <command> [params]\nmotd: txt <text>, img <url>, showTxt <text>, showImg <url>, showId <id>, delete <id>, list, listId <id>\nnote: add <text>, delete <id>, list, listId <id>, priority <id> <priority>, show <id> <state>"
+		return "<target> <command> [params]\nmotd: txt <text>, img <url>, showTxt <text>, showImg <url>, showId <id>, delete <id>, deleteAll, list, listId <id>\nnote: add <text>, delete <id>, deleteAll, list, listId <id>, priority <id> <priority>, show <id> <state>, showAll <state>"
 
 	splitted = command.split(" ", 2)
 	
 	if len(splitted) < 2:
 		return "Command not complete"
 	
-	syntaxTree = {"motd": {"txt": 1, "img": 1, "showTxt": 1, "showImg": 1, "showId": 1, "delete": 1, "list": 0, "listId": 1}, "note": {"add": 1, "delete": 1, "list": 0, "listId": 1, "priority": 2, "show": 2}}
+	syntaxTree = {"motd": {"txt": 1, "img": 1, "showTxt": 1, "showImg": 1, "showId": 1, "delete": 1, "deleteAll": 0, "list": 0, "listId": 1}, "note": {"add": 1, "delete": 1, "deleteAll": 0, "list": 0, "listId": 1, "priority": 2, "show": 2, "showAll": 1}}
 	
 	# list = GET
 	# listId = GET /id
@@ -93,7 +93,10 @@ def runMotd(parameters):
 	elif parameters[0] == "delete":
 		method = "DELETE"
 		id = parameters[1]
-
+		
+	elif parameters[0] == "deleteAll":
+		method = "DELETE"		
+		
 	print method
 	print id
 	print params
@@ -126,6 +129,10 @@ def runNote(parameters):
 		method = "PUT"
 		id = parameters[1]
 		params = {"Active": parameters[2]}
+		
+	elif parameters[0] == "showAll":
+		method = "PUT"
+		params = {"Active": parameters[2]}
 	
 	elif parameters[0] == "priority":
 		method = "PUT"
@@ -135,6 +142,9 @@ def runNote(parameters):
 	elif parameters[0] == "delete":
 		method = "DELETE"
 		id = parameters[1]
+		
+	elif parameters[0] == "deleteAll":
+		method = "DELETE"
 	
 	print method
 	print id
