@@ -190,10 +190,12 @@ if sc.rtm_connect(with_team_state=False):
 		if len(messages) > 0:
 			for msg in messages:
 				if "text" in msg and "user" in msg:
+					if msg["user"] == "U90DACE79":
+						continue
 					command = msg["text"]
 					respond = run(command)
 					if respond != "":
-						sc.rtm_send_message("D90DARZ9V", respond)
+						sc.rtm_send_message(msg["user"], respond)
 					
 else:
 	print "Connection to Slack failed"
