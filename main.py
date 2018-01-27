@@ -1,6 +1,7 @@
 import os
 import time
 import requests
+import json
 from slackclient import SlackClient
 
 def run(command):
@@ -151,14 +152,18 @@ def makeRequest(method, target, id, params):
 
 	print url
 	
+	jdata = json.dumps(params)
+	
+	print jdata
+	
 	if method == "GET":
 		 r = requests.get(url)
 	elif method == "POST":
-		r = requests.post(url, data=params)
+		r = requests.post(url, data=jdata)
 	elif method == "DELETE":
 		r = requests.delete(url)
 	elif method == "PUT":
-		r = requests.put(url, data=params)
+		r = requests.put(url, data=jdata)
 	else:
 		return ""
 		
